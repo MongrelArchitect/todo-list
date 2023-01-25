@@ -15,20 +15,51 @@ body {
 
 .delete-todo {
   background: #f55;
+  height: 32px;
+  padding: 2px;
 }
 
-.view-todo {
-  border: none;
-  background: #5f5;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 16px 24px 16px 28px;
+.grayout {
+  background: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  z-index: 8;
 }
 
 .todo-control {
   align-items: center;
   display: flex;
   gap: 8px;
+  justify-content: end;
+}
+
+.todo-details {
+  background: #eef;
+  border: 2px solid #222;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  left: 0;
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 16px;
+  position: absolute;
+  right: 0;
+  top: 10px;
+  z-index: 9;
+}
+
+.todo-details > button {
+  align-self: start;
+  font-size: 0.9rem;
+  padding: 8px;
+}
+
+.todo-details.hidden,
+.grayout.hidden {
+  display: none;
 }
 
 .todo-summary {
@@ -38,15 +69,30 @@ body {
   gap: 16px;
   justify-content: space-between;
   padding: 8px;
+  position: relative;
+}
+
+.todo-summary > * {
+  flex: 1;
 }
 
 .todos {
   background: #222;
   display: grid;
   font-family: "Open Sans", sans-serif;
-  font-size: 1.4rem;
+  font-size: min(6vw, 1.2rem);
   gap: 2px;
   grid-template-rows: repeat(autofill, minmax(300px, 1fr));
   padding: 2px;
+}
+
+.view-todo {
+  border: none;
+  color: #fff;
+  background: #55f;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 8px 16px 8px 16px;
 }
 

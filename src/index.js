@@ -38,4 +38,6 @@ projectControl.projects[0].addTodo(
 
 uiControl.setupPage();
 uiControl.drawTodos(projectControl.projects[0].todos, 0);
-uiControl.addListeners(0);
+uiControl.setupDeleteListeners(0);
+uiControl.setupDetailListeners();
+uiControl.setupCloseListeners();
