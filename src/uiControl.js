@@ -2,22 +2,6 @@ import deleteIcon from './images/delete.svg';
 import projectControl from './projectControl';
 
 const uiControl = (() => {
-  const setupPage = () => {
-    // Set up the whole page layout
-    const body = document.querySelector('body');
-    const container = document.createElement('div');
-    container.className = 'container';
-    const todos = document.createElement('div');
-    todos.className = 'todos';
-    const grayout = document.createElement('div');
-    grayout.className = 'grayout hidden';
-
-    // Load it all up
-    body.appendChild(container);
-    container.appendChild(grayout);
-    container.appendChild(todos);
-  };
-
   const drawTodos = (todos, projIndex) => {
     // Expects array of todos from the current projec
     const todoList = document.querySelector('.todos');
@@ -89,6 +73,22 @@ const uiControl = (() => {
     });
   };
 
+  const drawProjects = () => {
+    // Show all availbe projects
+    const allProjects = projectControl.projects;
+
+    const ul = document.querySelector('.projects-list');
+    ul.innerHTML = '';
+
+    allProjects.forEach((project) => {
+      const li = document.createElement('li');
+      li.className = 'project-list-item';
+      li.setAttribute('data-index', allProjects.indexOf(project));
+      li.textContent = project.name;
+      ul.appendChild(li);
+    });
+  };
+
   const setupDetailListeners = () => {
     // For viewing details on an individual todo
     const detailButtons = document.querySelectorAll('.view-todo');
@@ -144,12 +144,29 @@ const uiControl = (() => {
     });
   };
 
+  const setupProjectListeners = () => {
+    // For selecting which project's todos are currently displayed
+    const projectListItems = document.querySelectorAll('.project-list-item');
+    projectListItems.forEach((item) => {
+      item.addEventListener('click', (event) => {
+        const { index } = event.target.dataset;
+        const selectedProject = projectControl.projects[index];
+        // Draw the selected project's todos & add listeners
+        drawTodos(selectedProject.todos, index);
+        setupDeleteListeners();
+        setupDetailListeners();
+        setupCloseListeners();
+      });
+    });
+  };
+
   return {
+    drawProjects,
     drawTodos,
     setupCloseListeners,
     setupDeleteListeners,
     setupDetailListeners,
-    setupPage,
+    setupProjectListeners,
   };
 })();
 

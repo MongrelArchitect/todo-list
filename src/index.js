@@ -36,8 +36,21 @@ projectControl.projects[0].addTodo(
   ),
 );
 
-uiControl.setupPage();
+// Second default project just to test out the project selection logic
+projectControl.addProject(ProjectFactory('project two'));
+projectControl.projects[1].addTodo(
+  TodoFactory(
+    'Testy',
+    'Here be a test todo',
+    '12/12/23',
+    'low',
+    false,
+  ),
+);
+
 uiControl.drawTodos(projectControl.projects[0].todos, 0);
+uiControl.drawProjects();
 uiControl.setupDeleteListeners(0);
 uiControl.setupDetailListeners();
 uiControl.setupCloseListeners();
+uiControl.setupProjectListeners();
