@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #ccc;
+}
+
+.delete-todo,
+.view-todo {
+  border-radius: 6px;
+}
+
+.delete-todo {
+  background: #f55;
+}
+
+.view-todo {
+  border: none;
+  background: #5f5;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 16px 24px 16px 28px;
+}
+
+.todo-control {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.todo-summary {
+  align-items: center;
+  background: #ffe;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.todos {
+  background: #222;
+  display: grid;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.4rem;
+  gap: 2px;
+  grid-template-rows: repeat(autofill, minmax(300px, 1fr));
+  padding: 2px;
+}
+
