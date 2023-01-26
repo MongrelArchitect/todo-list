@@ -62,37 +62,38 @@ const uiControl = (() => {
 
       // Todo edit form (initially hidden)
       const todoEdit = document.createElement('div');
+      todoEdit.innerHTML = '';
       todoEdit.className = 'todo-edit hidden';
       todoEdit.setAttribute('data-index', todos.indexOf(todo));
       const editHeading = document.createElement('h3');
       editHeading.textContent = 'Edit Todo:';
       const editForm = document.createElement('form');
       const titleLabel = document.createElement('label');
-      titleLabel.setAttribute('for', 'edit-title');
+      titleLabel.setAttribute('for', `edit-title-${todos.indexOf(todo)}`);
       titleLabel.textContent = 'Title:';
       const editTitle = document.createElement('input');
       editTitle.setAttribute('type', 'text');
-      editTitle.setAttribute('id', 'edit-title');
+      editTitle.setAttribute('id', `edit-title-${todos.indexOf(todo)}`);
       editTitle.value = todo.title;
       const descLabel = document.createElement('label');
-      descLabel.setAttribute('for', 'edit-desc');
+      descLabel.setAttribute('for', `edit-desc-${todos.indexOf(todo)}`);
       descLabel.textContent = 'Description:';
       const editDesc = document.createElement('input');
       editDesc.setAttribute('type', 'text');
-      editDesc.setAttribute('id', 'edit-desc');
+      editDesc.setAttribute('id', `edit-desc-${todos.indexOf(todo)}`);
       editDesc.value = todo.desc;
       const dueLabel = document.createElement('label');
-      dueLabel.setAttribute('for', 'edit-due');
+      dueLabel.setAttribute('for', `edit-due-${todos.indexOf(todo)}`);
       dueLabel.textContent = 'Due Date:';
       const editDue = document.createElement('input');
       editDue.setAttribute('type', 'date');
-      editDue.setAttribute('id', 'edit-due');
+      editDue.setAttribute('id', `edit-due-${todos.indexOf(todo)}`);
       editDue.value = todo.due;
       const priorLabel = document.createElement('label');
-      priorLabel.setAttribute('for', 'edit-prior');
+      priorLabel.setAttribute('for', `edit-prior-${todos.indexOf(todo)}`);
       priorLabel.textContent = 'Priority:';
       const editPrior = document.createElement('select');
-      editPrior.setAttribute('id', 'edit-prior');
+      editPrior.setAttribute('id', `edit-prior-${todos.indexOf(todo)}`);
       const lowPrior = document.createElement('option');
       lowPrior.setAttribute('value', 'Low');
       lowPrior.textContent = 'Low';
@@ -106,17 +107,13 @@ const uiControl = (() => {
       editPrior.appendChild(lowPrior);
       editPrior.appendChild(medPrior);
       editPrior.appendChild(highPrior);
-      for (let i = 0; i < editPrior.length; i += 1) {
-        if (editPrior.options[i].value === todo.prior) {
-          editPrior.options[i].selected = true;
-        }
-      }
+      editPrior.value = todo.prior;
       const doneLabel = document.createElement('label');
-      doneLabel.setAttribute('for', 'edit-done');
+      doneLabel.setAttribute('for', `edit-done-${todos.indexOf(todo)}`);
       doneLabel.textContent = 'Done:';
       const editDone = document.createElement('input');
       editDone.setAttribute('type', 'checkbox');
-      editDone.setAttribute('id', 'edit-done');
+      editDone.setAttribute('id', `edit-done-${todos.indexOf(todo)}`);
       if (todo.done) {
         editDone.checked = true;
       } else {
@@ -125,6 +122,7 @@ const uiControl = (() => {
       const submitEdit = document.createElement('button');
       submitEdit.setAttribute('type', 'button');
       submitEdit.setAttribute('class', 'submit-edit');
+      submitEdit.setAttribute('data-index', todos.indexOf(todo));
       submitEdit.textContent = 'SUBMIT';
       const cancelEdit = document.createElement('button');
       cancelEdit.setAttribute('type', 'button');
@@ -305,6 +303,37 @@ const uiControl = (() => {
     });
   };
 
+  const editTodo = () => {
+    // For submitting edits to the currently selected todo
+    const submitButtons = document.querySelectorAll('.submit-edit');
+    submitButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const { index } = event.target.dataset;
+        const newTitle = document.querySelector(`#edit-title-${index}`).value;
+        const newDesc = document.querySelector(`#edit-desc-${index}`).value;
+        const newDue = document.querySelector(`#edit-due-${index}`).value;
+        const newPrior = document.querySelector(`#edit-prior-${index}`).value;
+        const newDone = document.querySelector(`#edit-done-${index}`).checked;
+
+        const currentProject = projectControl.projects[currentProjectIndex];
+        const todo = currentProject.todos[index];
+        todo.title = newTitle;
+        todo.desc = newDesc;
+        todo.due = newDue;
+        todo.prior = newPrior;
+        todo.done = newDone;
+        const grayout = document.querySelector('.grayout');
+        grayout.classList.add('hidden');
+        drawTodos(currentProject.todos, currentProjectIndex);
+        setupDeleteListeners();
+        setupDetailListeners();
+        setupEditListeners();
+        setupCloseListeners();
+        editTodo();
+      });
+    });
+  };
+
   const createNewTodo = () => {
     // Create new todo for currently selected project
     const submit = document.querySelector('#new-todo');
@@ -317,21 +346,19 @@ const uiControl = (() => {
       const currentProject = projectControl.projects[currentProjectIndex];
       currentProject.addTodo(newTodo);
       drawTodos(currentProject.todos, currentProjectIndex);
-      setupEditListeners();
       setupDeleteListeners();
       setupDetailListeners();
+      setupEditListeners();
       setupCloseListeners();
+      editTodo();
     });
-  };
-
-  const editTodo = () => {
-    // do something
   };
 
   return {
     createNewTodo,
     drawProjects,
     drawTodos,
+    editTodo,
     setupCloseListeners,
     setupDeleteListeners,
     setupDetailListeners,

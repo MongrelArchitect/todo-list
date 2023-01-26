@@ -45,3 +45,4 @@ uiControl.setupCloseListeners();
 uiControl.setupEditListeners();
 uiControl.setupProjectListeners();
 uiControl.submitNewProject();
+uiControl.editTodo();
