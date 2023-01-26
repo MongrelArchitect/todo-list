@@ -42,5 +42,6 @@ uiControl.createNewTodo();
 uiControl.setupDeleteListeners(0);
 uiControl.setupDetailListeners();
 uiControl.setupCloseListeners();
+uiControl.setupEditListeners();
 uiControl.setupProjectListeners();
 uiControl.submitNewProject();

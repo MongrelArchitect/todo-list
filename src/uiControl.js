@@ -62,7 +62,8 @@ const uiControl = (() => {
 
       // Todo edit form (initially hidden)
       const todoEdit = document.createElement('div');
-      todoEdit.className = 'todo-edit';
+      todoEdit.className = 'todo-edit hidden';
+      todoEdit.setAttribute('data-index', todos.indexOf(todo));
       const editHeading = document.createElement('h3');
       editHeading.textContent = 'Edit Todo:';
       const editForm = document.createElement('form');
@@ -123,11 +124,11 @@ const uiControl = (() => {
       }
       const submitEdit = document.createElement('button');
       submitEdit.setAttribute('type', 'button');
-      submitEdit.setAttribute('id', 'submit-edit');
+      submitEdit.setAttribute('class', 'submit-edit');
       submitEdit.textContent = 'SUBMIT';
       const cancelEdit = document.createElement('button');
       cancelEdit.setAttribute('type', 'button');
-      cancelEdit.setAttribute('id', 'cancel-edit');
+      cancelEdit.setAttribute('class', 'cancel-edit');
       cancelEdit.textContent = 'CANCEL';
 
       // Load it all up
@@ -220,6 +221,22 @@ const uiControl = (() => {
     });
   };
 
+  const setupEditListeners = () => {
+    // For editing a selected todo
+    const allEditButtons = document.querySelectorAll('.detail-edit');
+    allEditButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const { index } = event.target.dataset;
+        const allEditSections = document.querySelectorAll('.todo-edit');
+        allEditSections.forEach((section) => {
+          if (index === section.dataset.index) {
+            section.classList.remove('hidden');
+          }
+        });
+      });
+    });
+  };
+
   const setupDeleteListeners = () => {
     // For deleting todos from a given project
     const deleteButtons = document.querySelectorAll('.delete-todo');
@@ -302,6 +319,7 @@ const uiControl = (() => {
     setupCloseListeners,
     setupDeleteListeners,
     setupDetailListeners,
+    setupEditListeners,
     setupProjectListeners,
     submitNewProject,
   };

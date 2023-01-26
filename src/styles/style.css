@@ -95,13 +95,14 @@ body {
   padding: 8px;
 }
 
+.todo-edit.hidden,
 .todo-details.hidden,
 .grayout.hidden {
   display: none;
 }
 
 .todo-edit {
-  background: #eef;
+  background: #fee;
   border-radius: 16px;
   height: 98%;
   width: 98%;
