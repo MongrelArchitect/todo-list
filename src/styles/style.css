@@ -9,6 +9,11 @@ body {
   font-family: Ubuntu, sans-serif;
 }
 
+.active {
+  background: #fff;
+  font-weight: bold;
+}
+
 .add-todo {
   background: #f5f;
 }

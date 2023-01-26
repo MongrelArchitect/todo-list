@@ -54,3 +54,4 @@ uiControl.setupDeleteListeners(0);
 uiControl.setupDetailListeners();
 uiControl.setupCloseListeners();
 uiControl.setupProjectListeners();
+uiControl.submitNewProject();

@@ -1,7 +1,10 @@
 import deleteIcon from './images/delete.svg';
 import projectControl from './projectControl';
+import ProjectFactory from './projects';
 
 const uiControl = (() => {
+  let currentProjectIndex = 0;
+
   const drawTodos = (todos, projIndex) => {
     // Expects array of todos from the current projec
     const todoList = document.querySelector('.todos');
@@ -84,6 +87,9 @@ const uiControl = (() => {
       const li = document.createElement('li');
       li.className = 'project-list-item';
       li.setAttribute('data-index', allProjects.indexOf(project));
+      if (currentProjectIndex === allProjects.indexOf(project)) {
+        li.classList.add('active');
+      }
       li.textContent = project.name;
       ul.appendChild(li);
     });
@@ -151,12 +157,29 @@ const uiControl = (() => {
       item.addEventListener('click', (event) => {
         const { index } = event.target.dataset;
         const selectedProject = projectControl.projects[index];
+        currentProjectIndex = +index;
         // Draw the selected project's todos & add listeners
+        drawProjects();
         drawTodos(selectedProject.todos, index);
         setupDeleteListeners();
         setupDetailListeners();
         setupCloseListeners();
+        setupProjectListeners();
       });
+    });
+  };
+
+  const submitNewProject = () => {
+    // Create new project & display it's todos (obviously empty at first)
+    const newProjectButton = document.querySelector('#submit-new-project');
+    newProjectButton.addEventListener('click', () => {
+      const newTitle = document.querySelector('#new-project-title');
+      const newProject = ProjectFactory(newTitle.value);
+      projectControl.addProject(newProject);
+      currentProjectIndex = projectControl.projects.indexOf(newProject);
+      drawProjects();
+      drawTodos(newProject.todos, projectControl.projects.indexOf(newProject));
+      setupProjectListeners();
     });
   };
 
@@ -167,6 +190,7 @@ const uiControl = (() => {
     setupDeleteListeners,
     setupDetailListeners,
     setupProjectListeners,
+    submitNewProject,
   };
 })();
 
