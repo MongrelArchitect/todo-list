@@ -219,6 +219,20 @@ const uiControl = (() => {
         });
       });
     });
+
+    // For closing a todo's edit view
+    const closeEditButtons = document.querySelectorAll('.cancel-edit');
+    closeEditButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const allEditSections = document.querySelectorAll('.todo-edit');
+        // Just hide any that match, don't fuddle with indexes
+        allEditSections.forEach((section) => {
+          if (!section.classList.contains('hidden')) {
+            section.classList.add('hidden');
+          }
+        });
+      });
+    });
   };
 
   const setupEditListeners = () => {
@@ -251,6 +265,7 @@ const uiControl = (() => {
         drawTodos(todos, projIndex);
         setupDeleteListeners();
         setupDetailListeners();
+        setupEditListeners();
         setupCloseListeners();
       });
     });
@@ -269,6 +284,7 @@ const uiControl = (() => {
         drawTodos(selectedProject.todos, index);
         setupDeleteListeners();
         setupDetailListeners();
+        setupEditListeners();
         setupCloseListeners();
         setupProjectListeners();
       });
@@ -290,18 +306,18 @@ const uiControl = (() => {
   };
 
   const createNewTodo = () => {
+    // Create new todo for currently selected project
     const submit = document.querySelector('#new-todo');
     submit.addEventListener('click', () => {
-      // Create new todo for currently selected project
       const newTitle = document.querySelector('#new-title').value;
       const newDesc = document.querySelector('#new-desc').value;
       const newDue = document.querySelector('#new-due').value;
       const newPrior = document.querySelector('#new-prior').value;
-
       const newTodo = TodoFactory(newTitle, newDesc, newDue, newPrior, false);
       const currentProject = projectControl.projects[currentProjectIndex];
       currentProject.addTodo(newTodo);
       drawTodos(currentProject.todos, currentProjectIndex);
+      setupEditListeners();
       setupDeleteListeners();
       setupDetailListeners();
       setupCloseListeners();
