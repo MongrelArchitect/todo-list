@@ -53,11 +53,82 @@ const uiControl = (() => {
       const detailEdit = document.createElement('button');
       detailEdit.className = 'detail-edit';
       detailEdit.setAttribute('type', 'button');
+      detailEdit.setAttribute('data-index', todos.indexOf(todo));
       detailEdit.textContent = 'EDIT';
       const detailClose = document.createElement('button');
       detailClose.className = 'detail-close';
       detailClose.setAttribute('type', 'button');
       detailClose.textContent = 'CLOSE';
+
+      // Todo edit form (initially hidden)
+      const todoEdit = document.createElement('div');
+      todoEdit.className = 'todo-edit';
+      const editHeading = document.createElement('h3');
+      editHeading.textContent = 'Edit Todo:';
+      const editForm = document.createElement('form');
+      const titleLabel = document.createElement('label');
+      titleLabel.setAttribute('for', 'edit-title');
+      titleLabel.textContent = 'Title:';
+      const editTitle = document.createElement('input');
+      editTitle.setAttribute('type', 'text');
+      editTitle.setAttribute('id', 'edit-title');
+      editTitle.value = todo.title;
+      const descLabel = document.createElement('label');
+      descLabel.setAttribute('for', 'edit-desc');
+      descLabel.textContent = 'Description:';
+      const editDesc = document.createElement('input');
+      editDesc.setAttribute('type', 'text');
+      editDesc.setAttribute('id', 'edit-desc');
+      editDesc.value = todo.desc;
+      const dueLabel = document.createElement('label');
+      dueLabel.setAttribute('for', 'edit-due');
+      dueLabel.textContent = 'Due Date:';
+      const editDue = document.createElement('input');
+      editDue.setAttribute('type', 'date');
+      editDue.setAttribute('id', 'edit-due');
+      editDue.value = todo.due;
+      const priorLabel = document.createElement('label');
+      priorLabel.setAttribute('for', 'edit-prior');
+      priorLabel.textContent = 'Priority:';
+      const editPrior = document.createElement('select');
+      editPrior.setAttribute('id', 'edit-prior');
+      const lowPrior = document.createElement('option');
+      lowPrior.setAttribute('value', 'Low');
+      lowPrior.textContent = 'Low';
+      const medPrior = document.createElement('option');
+      medPrior.setAttribute('value', 'Medium');
+      medPrior.textContent = 'Medium';
+      const highPrior = document.createElement('option');
+      highPrior.setAttribute('value', 'High');
+      highPrior.textContent = 'High';
+      // Gotta populate the dropdown to select the proper priority
+      editPrior.appendChild(lowPrior);
+      editPrior.appendChild(medPrior);
+      editPrior.appendChild(highPrior);
+      for (let i = 0; i < editPrior.length; i += 1) {
+        if (editPrior.options[i].value === todo.prior) {
+          editPrior.options[i].selected = true;
+        }
+      }
+      const doneLabel = document.createElement('label');
+      doneLabel.setAttribute('for', 'edit-done');
+      doneLabel.textContent = 'Done:';
+      const editDone = document.createElement('input');
+      editDone.setAttribute('type', 'checkbox');
+      editDone.setAttribute('id', 'edit-done');
+      if (todo.done) {
+        editDone.checked = true;
+      } else {
+        editDone.checked = false;
+      }
+      const submitEdit = document.createElement('button');
+      submitEdit.setAttribute('type', 'button');
+      submitEdit.setAttribute('id', 'submit-edit');
+      submitEdit.textContent = 'SUBMIT';
+      const cancelEdit = document.createElement('button');
+      cancelEdit.setAttribute('type', 'button');
+      cancelEdit.setAttribute('id', 'cancel-edit');
+      cancelEdit.textContent = 'CANCEL';
 
       // Load it all up
       todoList.appendChild(todoSummary);
@@ -67,6 +138,23 @@ const uiControl = (() => {
       todoSummary.appendChild(todoControl);
       todoControl.appendChild(viewButton);
       todoControl.appendChild(deleteButton);
+
+      todoDetails.appendChild(todoEdit);
+      todoEdit.appendChild(editHeading);
+      todoEdit.appendChild(editForm);
+      editForm.appendChild(titleLabel);
+      titleLabel.appendChild(editTitle);
+      editForm.appendChild(descLabel);
+      descLabel.appendChild(editDesc);
+      editForm.appendChild(dueLabel);
+      dueLabel.appendChild(editDue);
+      editForm.appendChild(priorLabel);
+      priorLabel.appendChild(editPrior);
+      editForm.appendChild(doneLabel);
+      doneLabel.appendChild(editDone);
+      editForm.appendChild(submitEdit);
+      editForm.appendChild(cancelEdit);
+
       todoDetails.appendChild(detailTitle);
       todoDetails.appendChild(detailDesc);
       todoDetails.appendChild(detailDue);
@@ -201,6 +289,10 @@ const uiControl = (() => {
       setupDetailListeners();
       setupCloseListeners();
     });
+  };
+
+  const editTodo = () => {
+    // do something
   };
 
   return {

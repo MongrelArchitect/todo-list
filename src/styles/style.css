@@ -100,6 +100,22 @@ body {
   display: none;
 }
 
+.todo-edit {
+  background: #eef;
+  border-radius: 16px;
+  height: 98%;
+  width: 98%;
+  padding: 16px;
+  position: absolute;
+  top: 1%;
+  left: 1%;
+}
+
+.todo-edit > form {
+  display: flex;
+  flex-direction: column;
+}
+
 .todo-summary {
   align-items: center;
   background: #ffe;
