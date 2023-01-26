@@ -50,6 +50,7 @@ projectControl.projects[1].addTodo(
 
 uiControl.drawTodos(projectControl.projects[0].todos, 0);
 uiControl.drawProjects();
+uiControl.createNewTodo();
 uiControl.setupDeleteListeners(0);
 uiControl.setupDetailListeners();
 uiControl.setupCloseListeners();

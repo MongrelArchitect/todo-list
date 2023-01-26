@@ -1,6 +1,7 @@
 import deleteIcon from './images/delete.svg';
 import projectControl from './projectControl';
 import ProjectFactory from './projects';
+import TodoFactory from './todos';
 
 const uiControl = (() => {
   let currentProjectIndex = 0;
@@ -183,7 +184,27 @@ const uiControl = (() => {
     });
   };
 
+  const createNewTodo = () => {
+    const submit = document.querySelector('#new-todo');
+    submit.addEventListener('click', () => {
+      // Create new todo for currently selected project
+      const newTitle = document.querySelector('#new-title').value;
+      const newDesc = document.querySelector('#new-desc').value;
+      const newDue = document.querySelector('#new-due').value;
+      const newPrior = document.querySelector('#new-prior').value;
+
+      const newTodo = TodoFactory(newTitle, newDesc, newDue, newPrior, false);
+      const currentProject = projectControl.projects[currentProjectIndex];
+      currentProject.addTodo(newTodo);
+      drawTodos(currentProject.todos, currentProjectIndex);
+      setupDeleteListeners();
+      setupDetailListeners();
+      setupCloseListeners();
+    });
+  };
+
   return {
+    createNewTodo,
     drawProjects,
     drawTodos,
     setupCloseListeners,
