@@ -7,15 +7,59 @@
 body {
   background: #ccc;
   font-family: Ubuntu, sans-serif;
+  height: 100vh;
+  margin: auto;
+  max-width: 1200px;
 }
 
 .active {
-  background: #fff;
+  background: #aea;
   font-weight: bold;
 }
 
-.add-todo {
-  background: #f5f;
+.add-todo,
+.projects {
+  background: #efe;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.add-todo h2,
+.projects h2 {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.add-todo > form,
+.projects > form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.add-todo button,
+.projects button {
+  background: #a3f;
+  border: none;
+  color: #eee;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 8px;
+  padding: 8px 16px 8px 16px;
+  width: 100px;
+}
+
+.add-todo input,
+.add-todo select,
+.projects input,
+.todo-edit input,
+.todo-edit select {
+  font-size: 1rem;
+  padding: 4px;
 }
 
 .add-todo,
@@ -24,21 +68,30 @@ body {
 }
 
 .container {
-  border: 2px solid red;
+  background: #fff;
   display: grid;
-  grid-template-rows: repeat(3, auto) 1fr;
+  justify-content: space-between;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-.delete-todo,
-.view-todo {
-  border-radius: 6px;
 }
 
 .delete-todo {
   background: #f55;
   height: 32px;
   padding: 2px;
+}
+
+.footer {
+  background: #ffa;
+  text-align: center;
+  max-width: 1200px;
+  padding: 16px;
+  width: 100vw;
+}
+
+.footer a {
+  color: #222;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .grayout {
@@ -50,19 +103,23 @@ body {
 }
 
 .heading {
-  background: #ff5;
-  font-size: 1.4rem;
+  background: #ffa;
+  font-size: 1.5rem;
+  font-weight: bold;
   padding: 8px;
   text-align: center;
 }
 
 .project-list-item {
+  padding: 8px;
   cursor: pointer;
-  font-weight: bold;
+  width: max-content;
 }
 
 .projects {
-  background: #f55;
+  background: #eae;
+  display: flex;
+  flex-direction: column;
 }
 
 .todo-control {
@@ -75,24 +132,46 @@ body {
 .todo-details {
   background: #eef;
   border: 2px solid #222;
-  border-radius: 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   left: 0;
   margin: 0 auto;
-  max-width: 500px;
+  width: 100%;
   padding: 16px;
   position: absolute;
   right: 0;
-  top: 10px;
+  top: 0;
   z-index: 9;
 }
 
-.todo-details > button {
+.todo-details > button,
+.todo-edit button {
   align-self: start;
-  font-size: 0.9rem;
-  padding: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 8px 16px 8px 16px;
+  width: 100px;
+}
+
+.todo-details h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.todo-details p {
+  font-size: 1.2rem;
+}
+
+.todo-details .detail-edit,
+.todo-edit .submit-edit {
+  background: #6e6;
+}
+
+.todo-details .detail-close,
+.todo-edit .cancel-edit {
+  background: #e6e;
 }
 
 .todo-edit.hidden,
@@ -103,23 +182,38 @@ body {
 
 .todo-edit {
   background: #fee;
-  border-radius: 16px;
-  height: 98%;
-  width: 98%;
+  border: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
   padding: 16px;
   position: absolute;
-  top: 1%;
-  left: 1%;
+  top: 0;
+  left: 0;
+}
+
+.todo-edit label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .todo-edit > form {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.todo-edit input[type="checkbox"] {
+  align-self: start;
+  scale: 1.5;
 }
 
 .todo-summary {
   align-items: center;
-  background: #ffe;
+  background: #fff;
+  border: 1px solid #222;
   display: flex;
   gap: 16px;
   justify-content: space-between;
@@ -127,18 +221,33 @@ body {
   position: relative;
 }
 
+.todo-summary.done {
+  background: #ddd;
+}
+
+.todo-summary.low {
+  background: #aea;
+}
+
+.todo-summary.medium {
+  background: #eea;
+}
+
+.todo-summary.high {
+  background: #fc9;
+}
+
 .todo-summary > * {
   flex: 1;
 }
 
 .todos {
-  background: #222;
+  align-content: start;
   display: grid;
+  gap: 8px;
   font-family: "Open Sans", sans-serif;
   font-size: min(6vw, 1rem);
-  gap: 2px;
-  grid-template-rows: repeat(autofill, minmax(300px, 1fr));
-  padding: 2px;
+  padding: 8px;
 }
 
 .view-todo {

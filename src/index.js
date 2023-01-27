@@ -23,7 +23,7 @@ projectControl.projects[0].addTodo(
     'Buy and install a new battery for the Subaru',
     '2023-02-15',
     'Medium',
-    true,
+    false,
   ),
 );
 projectControl.projects[0].addTodo(
@@ -33,6 +33,15 @@ projectControl.projects[0].addTodo(
     '2023-03-12',
     'High',
     false,
+  ),
+);
+projectControl.projects[0].addTodo(
+  TodoFactory(
+    'Done',
+    'Whatever it was, it\'s finished',
+    '2022-12-12',
+    'Medium',
+    true,
   ),
 );
 

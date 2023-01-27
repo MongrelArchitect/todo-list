@@ -11,10 +11,30 @@ const uiControl = (() => {
     const todoList = document.querySelector('.todos');
     todoList.innerHTML = '';
     todos.forEach((todo) => {
-      // Due date & title
+      // Todo summary, styled according to priority
       const todoSummary = document.createElement('div');
       todoSummary.className = 'todo-summary';
       todoSummary.setAttribute('data-index', todos.indexOf(todo));
+      if (todo.done) {
+        todoSummary.classList.add('done');
+      } else {
+        switch (todo.prior) {
+          case 'Low':
+            todoSummary.classList.add('low');
+            break;
+          case 'Medium':
+            todoSummary.classList.add('medium');
+            break;
+          case 'High':
+            todoSummary.classList.add('high');
+            break;
+          default:
+            // do nothing
+            break;
+        }
+      }
+
+      // Due date & title
       const dueDate = document.createElement('span');
       dueDate.textContent = todo.due;
       const title = document.createElement('span');
@@ -42,7 +62,7 @@ const uiControl = (() => {
       todoDetails.setAttribute('data-index', todos.indexOf(todo));
       const detailTitle = document.createElement('h3');
       detailTitle.textContent = todo.title;
-      const detailDesc = document.createElement('h3');
+      const detailDesc = document.createElement('p');
       detailDesc.textContent = todo.desc;
       const detailDue = document.createElement('p');
       detailDue.textContent = `Due: ${todo.due}`;
