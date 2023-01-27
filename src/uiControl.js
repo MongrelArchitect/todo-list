@@ -10,6 +10,8 @@ const uiControl = (() => {
     // Expects array of todos from the current projec
     const todoList = document.querySelector('.todos');
     todoList.innerHTML = '';
+    // Sort 'em by due date
+    todos.sort((a, b) => (a.due > b.due ? 1 : -1));
     todos.forEach((todo) => {
       // Todo summary, styled according to priority
       const todoSummary = document.createElement('div');
