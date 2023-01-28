@@ -287,6 +287,8 @@ const uiControl = (() => {
         setupDetailListeners();
         setupEditListeners();
         setupCloseListeners();
+        // Update local storage
+        localStorage.setItem('projects', JSON.stringify(projectControl.projects));
       });
     });
   };
@@ -322,6 +324,8 @@ const uiControl = (() => {
       drawProjects();
       drawTodos(newProject.todos, projectControl.projects.indexOf(newProject));
       setupProjectListeners();
+      // Update local storage
+      localStorage.setItem('projects', JSON.stringify(projectControl.projects));
     });
   };
 
@@ -352,6 +356,11 @@ const uiControl = (() => {
         setupEditListeners();
         setupCloseListeners();
         editTodo();
+        // Update local storage
+        localStorage.setItem(
+          'projects',
+          JSON.stringify(projectControl.projects),
+        );
       });
     });
   };
@@ -373,6 +382,8 @@ const uiControl = (() => {
       setupEditListeners();
       setupCloseListeners();
       editTodo();
+      // Update local storage
+      localStorage.setItem('projects', JSON.stringify(projectControl.projects));
     });
   };
 
