@@ -67,8 +67,6 @@ if (!localStorage.projects) {
   }
 }
 
-localStorage.clear();
-console.log(projectControl.projects);
 uiControl.drawTodos(projectControl.projects[0].todos, 0);
 uiControl.drawProjects();
 uiControl.createNewTodo();
