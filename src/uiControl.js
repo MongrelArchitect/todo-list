@@ -293,42 +293,6 @@ const uiControl = (() => {
     });
   };
 
-  const setupProjectListeners = () => {
-    // For selecting which project's todos are currently displayed
-    const projectListItems = document.querySelectorAll('.project-list-item');
-    projectListItems.forEach((item) => {
-      item.addEventListener('click', (event) => {
-        const { index } = event.target.dataset;
-        const selectedProject = projectControl.projects[index];
-        currentProjectIndex = +index;
-        // Draw the selected project's todos & add listeners
-        drawProjects();
-        drawTodos(selectedProject.todos, index);
-        setupDeleteListeners();
-        setupDetailListeners();
-        setupEditListeners();
-        setupCloseListeners();
-        setupProjectListeners();
-      });
-    });
-  };
-
-  const submitNewProject = () => {
-    // Create new project & display it's todos (obviously empty at first)
-    const newProjectButton = document.querySelector('#submit-new-project');
-    newProjectButton.addEventListener('click', () => {
-      const newTitle = document.querySelector('#new-project-title');
-      const newProject = ProjectFactory(newTitle.value);
-      projectControl.addProject(newProject);
-      currentProjectIndex = projectControl.projects.indexOf(newProject);
-      drawProjects();
-      drawTodos(newProject.todos, projectControl.projects.indexOf(newProject));
-      setupProjectListeners();
-      // Update local storage
-      localStorage.setItem('projects', JSON.stringify(projectControl.projects));
-    });
-  };
-
   const editTodo = () => {
     // For submitting edits to the currently selected todo
     const submitButtons = document.querySelectorAll('.submit-edit');
@@ -362,6 +326,44 @@ const uiControl = (() => {
           JSON.stringify(projectControl.projects),
         );
       });
+    });
+  };
+
+  const setupProjectListeners = () => {
+    // For selecting which project's todos are currently displayed
+    const projectListItems = document.querySelectorAll('.project-list-item');
+    projectListItems.forEach((item) => {
+      item.addEventListener('click', (event) => {
+        const { index } = event.target.dataset;
+        const selectedProject = projectControl.projects[index];
+        currentProjectIndex = +index;
+        // Draw the selected project's todos & add listeners
+        drawProjects();
+        drawTodos(selectedProject.todos, index);
+        setupDeleteListeners();
+        setupDetailListeners();
+        setupEditListeners();
+        setupCloseListeners();
+        setupProjectListeners();
+        editTodo();
+      });
+    });
+  };
+
+  const submitNewProject = () => {
+    // Create new project & display it's todos (obviously empty at first)
+    const newProjectButton = document.querySelector('#submit-new-project');
+    newProjectButton.addEventListener('click', () => {
+      const newTitle = document.querySelector('#new-project-title');
+      const newProject = ProjectFactory(newTitle.value);
+      projectControl.addProject(newProject);
+      currentProjectIndex = projectControl.projects.indexOf(newProject);
+      drawProjects();
+      drawTodos(newProject.todos, projectControl.projects.indexOf(newProject));
+      setupProjectListeners();
+      editTodo();
+      // Update local storage
+      localStorage.setItem('projects', JSON.stringify(projectControl.projects));
     });
   };
 
