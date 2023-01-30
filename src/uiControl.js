@@ -195,6 +195,11 @@ const uiControl = (() => {
 
     allProjects.forEach((project) => {
       const li = document.createElement('li');
+      const deleteButton = document.createElement('input');
+      deleteButton.setAttribute('type', 'image');
+      deleteButton.setAttribute('src', deleteIcon);
+      deleteButton.setAttribute('data-index', allProjects.indexOf(project));
+      deleteButton.className = 'delete-project';
       li.className = 'project-list-item';
       li.setAttribute('data-index', allProjects.indexOf(project));
       if (currentProjectIndex === allProjects.indexOf(project)) {
@@ -202,6 +207,7 @@ const uiControl = (() => {
       }
       li.textContent = project.name;
       ul.appendChild(li);
+      li.appendChild(deleteButton);
     });
   };
 
@@ -288,7 +294,34 @@ const uiControl = (() => {
         setupEditListeners();
         setupCloseListeners();
         // Update local storage
-        localStorage.setItem('projects', JSON.stringify(projectControl.projects));
+        localStorage
+          .setItem('projects', JSON.stringify(projectControl.projects));
+      });
+    });
+
+    // For deleting a project
+    const deleteProjectButtons = document.querySelectorAll('.delete-project');
+    deleteProjectButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const { index } = event.target.dataset;
+        projectControl.removeProject(index);
+        currentProjectIndex = 0;
+        if (projectControl.projects.length === 0) {
+          // User has deleted all projects, so draw nothing
+          drawTodos([], 0);
+        } else {
+          // Still some projects so draw the first one
+          drawTodos(projectControl.projects[0].todos, 0);
+        }
+        drawProjects();
+        setupDeleteListeners();
+        setupDetailListeners();
+        setupEditListeners();
+        setupCloseListeners();
+        // Update local storage
+        localStorage
+          .setItem('projects', JSON.stringify(projectControl.projects));
       });
     });
   };

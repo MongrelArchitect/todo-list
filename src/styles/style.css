@@ -73,7 +73,8 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
-.delete-todo {
+.delete-todo,
+.delete-project {
   background: #f55;
   height: 32px;
   padding: 2px;
@@ -110,6 +111,9 @@ body {
 }
 
 .project-list-item {
+  align-items: center;
+  display: flex;
+  gap: 8px;
   padding: 8px;
   cursor: pointer;
   width: max-content;

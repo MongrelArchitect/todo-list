@@ -6,8 +6,9 @@ import ProjectFactory from './projects';
 import projectControl from './projectControl';
 import uiControl from './uiControl';
 
-if (!localStorage.projects) {
-  // Nothing in storage, so create a default project and add some todos
+if (!localStorage.projects || localStorage.projects.length === 2) {
+  // Either nothing in storage or the user deleted all projects.
+  // Create a default project and add some todos.
   projectControl.addProject(ProjectFactory('default project'));
   projectControl.projects[0].addTodo(
     TodoFactory(
