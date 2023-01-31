@@ -277,6 +277,8 @@ const uiControl = (() => {
     });
   };
 
+  let editTodo;
+
   const setupDeleteListeners = () => {
     // For deleting todos from a given project
     const deleteButtons = document.querySelectorAll('.delete-todo');
@@ -293,6 +295,7 @@ const uiControl = (() => {
         setupDetailListeners();
         setupEditListeners();
         setupCloseListeners();
+        editTodo();
         // Update local storage
         localStorage
           .setItem('projects', JSON.stringify(projectControl.projects));
@@ -319,6 +322,7 @@ const uiControl = (() => {
         setupDetailListeners();
         setupEditListeners();
         setupCloseListeners();
+        editTodo();
         // Update local storage
         localStorage
           .setItem('projects', JSON.stringify(projectControl.projects));
@@ -326,7 +330,7 @@ const uiControl = (() => {
     });
   };
 
-  const editTodo = () => {
+  editTodo = () => {
     // For submitting edits to the currently selected todo
     const submitButtons = document.querySelectorAll('.submit-edit');
     submitButtons.forEach((button) => {
