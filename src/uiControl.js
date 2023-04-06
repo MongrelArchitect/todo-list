@@ -436,6 +436,9 @@ const uiControl = (() => {
     const loginContainer = document.querySelector('.login-container');
     const googleButton = document.querySelector('#google-login');
 
+    grayout.className = 'grayout';
+    loginContainer.className = 'login-container';
+
     googleButton.addEventListener('click', () => {
       loginControl.useGoogle();
     });
@@ -445,6 +448,47 @@ const uiControl = (() => {
       loginControl.useLocalStorage();
       grayout.className = 'grayout hidden';
       loginContainer.className = 'login-container hidden';
+
+      // Create a default project and add some todos.
+      projectControl.addProject(ProjectFactory('default project'));
+      projectControl.projects[0].addTodo(
+        TodoFactory(
+          'Read Book',
+          'Finish "Human Action" by Ludwig von Mises',
+          '2023-01-30',
+          'Low',
+          false,
+        ),
+      );
+      projectControl.projects[0].addTodo(
+        TodoFactory(
+          'New Battery',
+          'Buy and install a new battery for the Subaru',
+          '2023-02-15',
+          'Medium',
+          false,
+        ),
+      );
+      projectControl.projects[0].addTodo(
+        TodoFactory(
+          "Cousin's B-Day",
+          'Call Liz to wish her a happy birthday',
+          '2023-03-12',
+          'High',
+          false,
+        ),
+      );
+      projectControl.projects[0].addTodo(
+        TodoFactory(
+          'Done',
+          "Whatever it was, it's finished",
+          '2022-12-12',
+          'Medium',
+          true,
+        ),
+      );
+      localStorage.setItem('projects', JSON.stringify(projectControl.projects));
+
       drawTodos(projectControl.projects[0].todos, 0);
       drawProjects();
       createNewTodo();
