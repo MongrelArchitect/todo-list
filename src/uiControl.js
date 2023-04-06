@@ -434,9 +434,9 @@ const uiControl = (() => {
 
   const showUserInfo = (user) => {
     const userName = document.querySelector('.user-name');
-    userName.textContent = user;
+    userName.textContent = user.displayName;
     const userImg = document.querySelector('.user-img');
-    userImg.src = storageIcon;
+    userImg.src = user.photoURL;
   };
 
   const chooseLoginMethod = () => {
@@ -456,7 +456,7 @@ const uiControl = (() => {
       loginControl.useLocalStorage();
       grayout.className = 'grayout hidden';
       loginContainer.className = 'login-container hidden';
-      showUserInfo('Local Storage');
+      showUserInfo({ displayName: 'Local Storage', photoURL: storageIcon });
       // Create a default project and add some todos.
       projectControl.addProject(ProjectFactory('default project'));
       projectControl.projects[0].addTodo(

@@ -3,6 +3,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import './styles/reset.css';
 import './styles/style.css';
+import storageIcon from './images/storage.svg';
 
 import ProjectFactory from './projects';
 import TodoFactory from './todos';
@@ -20,11 +21,17 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
+const auth = getAuth();
+
+// localStorage.clear();
+// auth.signOut();
+
 if (!localStorage.usingLocal) {
-  const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (!user) {
       uiControl.chooseLoginMethod();
+    } else {
+      uiControl.showUserInfo(user);
     }
   });
 } else {
@@ -47,7 +54,10 @@ if (!localStorage.usingLocal) {
       );
     }
   }
-  uiControl.showUserInfo('Local Storage');
+  uiControl.showUserInfo({
+    displayName: 'Local Storage',
+    photoURL: storageIcon,
+  });
   uiControl.drawTodos(projectControl.projects[0].todos, 0);
   uiControl.drawProjects();
   uiControl.createNewTodo();
