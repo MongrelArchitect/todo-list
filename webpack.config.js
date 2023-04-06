@@ -1,11 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/index.js',
   devServer: {
     static: './dist',
   },
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {

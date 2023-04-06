@@ -1,3 +1,4 @@
+import loginControl from './login';
 import deleteIcon from './images/delete.svg';
 import projectControl from './projectControl';
 import ProjectFactory from './projects';
@@ -297,8 +298,10 @@ const uiControl = (() => {
         setupCloseListeners();
         editTodo();
         // Update local storage
-        localStorage
-          .setItem('projects', JSON.stringify(projectControl.projects));
+        localStorage.setItem(
+          'projects',
+          JSON.stringify(projectControl.projects),
+        );
       });
     });
 
@@ -324,8 +327,10 @@ const uiControl = (() => {
         setupCloseListeners();
         editTodo();
         // Update local storage
-        localStorage
-          .setItem('projects', JSON.stringify(projectControl.projects));
+        localStorage.setItem(
+          'projects',
+          JSON.stringify(projectControl.projects),
+        );
       });
     });
   };
@@ -426,7 +431,35 @@ const uiControl = (() => {
     });
   };
 
+  const chooseLoginMethod = () => {
+    const grayout = document.querySelector('.grayout');
+    const loginContainer = document.querySelector('.login-container');
+    const googleButton = document.querySelector('#google-login');
+
+    googleButton.addEventListener('click', () => {
+      loginControl.useGoogle();
+    });
+
+    const localButton = document.querySelector('#local-login');
+    localButton.addEventListener('click', () => {
+      loginControl.useLocalStorage();
+      grayout.className = 'grayout hidden';
+      loginContainer.className = 'login-container hidden';
+      drawTodos(projectControl.projects[0].todos, 0);
+      drawProjects();
+      createNewTodo();
+      setupDeleteListeners(0);
+      setupDetailListeners();
+      setupCloseListeners();
+      setupEditListeners();
+      setupProjectListeners();
+      submitNewProject();
+      editTodo();
+    });
+  };
+
   return {
+    chooseLoginMethod,
     createNewTodo,
     drawProjects,
     drawTodos,
