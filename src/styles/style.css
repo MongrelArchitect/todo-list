@@ -103,11 +103,29 @@ body {
 }
 
 .heading {
+  align-items: center;
   background: #ffa;
+  display: flex;
   font-size: 1.5rem;
   font-weight: bold;
+  justify-content: space-between;
   padding: 8px;
   text-align: center;
+}
+
+.heading .user-img {
+  height: 32px;
+}
+
+.heading .user-name {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.heading > span {
+  align-items: center;
+  display: flex;
+  gap: 8px;
 }
 
 .login-container {

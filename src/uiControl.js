@@ -1,5 +1,6 @@
 import loginControl from './login';
 import deleteIcon from './images/delete.svg';
+import storageIcon from './images/storage.svg';
 import projectControl from './projectControl';
 import ProjectFactory from './projects';
 import TodoFactory from './todos';
@@ -431,6 +432,13 @@ const uiControl = (() => {
     });
   };
 
+  const showUserInfo = (user) => {
+    const userName = document.querySelector('.user-name');
+    userName.textContent = user;
+    const userImg = document.querySelector('.user-img');
+    userImg.src = storageIcon;
+  };
+
   const chooseLoginMethod = () => {
     const grayout = document.querySelector('.grayout');
     const loginContainer = document.querySelector('.login-container');
@@ -448,7 +456,7 @@ const uiControl = (() => {
       loginControl.useLocalStorage();
       grayout.className = 'grayout hidden';
       loginContainer.className = 'login-container hidden';
-
+      showUserInfo('Local Storage');
       // Create a default project and add some todos.
       projectControl.addProject(ProjectFactory('default project'));
       projectControl.projects[0].addTodo(
@@ -513,6 +521,7 @@ const uiControl = (() => {
     setupDetailListeners,
     setupEditListeners,
     setupProjectListeners,
+    showUserInfo,
     submitNewProject,
   };
 })();

@@ -47,6 +47,7 @@ if (!localStorage.usingLocal) {
       );
     }
   }
+  uiControl.showUserInfo('Local Storage');
   uiControl.drawTodos(projectControl.projects[0].todos, 0);
   uiControl.drawProjects();
   uiControl.createNewTodo();
