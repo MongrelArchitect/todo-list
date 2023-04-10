@@ -23,8 +23,10 @@ initializeApp(firebaseConfig);
 
 const auth = getAuth();
 
+// XXX
 // localStorage.clear();
 // auth.signOut();
+// XXX
 
 if (!localStorage.usingLocal) {
   onAuthStateChanged(auth, (user) => {

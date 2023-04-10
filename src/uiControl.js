@@ -298,11 +298,16 @@ const uiControl = (() => {
         setupEditListeners();
         setupCloseListeners();
         editTodo();
-        // Update local storage
-        localStorage.setItem(
-          'projects',
-          JSON.stringify(projectControl.projects),
-        );
+        if (localStorage.usingLocal) {
+          // Update local storage
+          localStorage.setItem(
+            'projects',
+            JSON.stringify(projectControl.projects),
+          );
+        } else {
+          // TODO
+          // implement cloud firestore here
+        }
       });
     });
 
@@ -327,11 +332,16 @@ const uiControl = (() => {
         setupEditListeners();
         setupCloseListeners();
         editTodo();
-        // Update local storage
-        localStorage.setItem(
-          'projects',
-          JSON.stringify(projectControl.projects),
-        );
+        if (localStorage.usingLocal) {
+          // Update local storage
+          localStorage.setItem(
+            'projects',
+            JSON.stringify(projectControl.projects),
+          );
+        } else {
+          // TODO
+          // implement cloud firestore here
+        }
       });
     });
   };
@@ -363,11 +373,16 @@ const uiControl = (() => {
         setupEditListeners();
         setupCloseListeners();
         editTodo();
-        // Update local storage
-        localStorage.setItem(
-          'projects',
-          JSON.stringify(projectControl.projects),
-        );
+        if (localStorage.usingLocal) {
+          // Update local storage
+          localStorage.setItem(
+            'projects',
+            JSON.stringify(projectControl.projects),
+          );
+        } else {
+          // TODO
+          // implement cloud firestore here
+        }
       });
     });
   };
@@ -405,8 +420,16 @@ const uiControl = (() => {
       drawTodos(newProject.todos, projectControl.projects.indexOf(newProject));
       setupProjectListeners();
       editTodo();
-      // Update local storage
-      localStorage.setItem('projects', JSON.stringify(projectControl.projects));
+      if (localStorage.usingLocal) {
+        // Update local storage
+        localStorage.setItem(
+          'projects',
+          JSON.stringify(projectControl.projects),
+        );
+      } else {
+        // TODO
+        // implement cloud firestore here
+      }
     });
   };
 
@@ -427,8 +450,16 @@ const uiControl = (() => {
       setupEditListeners();
       setupCloseListeners();
       editTodo();
-      // Update local storage
-      localStorage.setItem('projects', JSON.stringify(projectControl.projects));
+      if (localStorage.usingLocal) {
+        // Update local storage
+        localStorage.setItem(
+          'projects',
+          JSON.stringify(projectControl.projects),
+        );
+      } else {
+        // TODO
+        // implement cloud firestore here
+      }
     });
   };
 
