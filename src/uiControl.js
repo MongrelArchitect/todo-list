@@ -4,6 +4,7 @@ import storageIcon from './images/storage.svg';
 import projectControl from './projectControl';
 import ProjectFactory from './projects';
 import TodoFactory from './todos';
+import databaseControl from './database';
 
 const uiControl = (() => {
   let currentProjectIndex = 0;
@@ -305,8 +306,7 @@ const uiControl = (() => {
             JSON.stringify(projectControl.projects),
           );
         } else {
-          // TODO
-          // implement cloud firestore here
+          databaseControl.updateProjects();
         }
       });
     });
@@ -341,6 +341,7 @@ const uiControl = (() => {
         } else {
           // TODO
           // implement cloud firestore here
+          databaseControl.updateProjects();
         }
       });
     });
@@ -382,6 +383,7 @@ const uiControl = (() => {
         } else {
           // TODO
           // implement cloud firestore here
+          databaseControl.updateProjects();
         }
       });
     });
@@ -429,6 +431,7 @@ const uiControl = (() => {
       } else {
         // TODO
         // implement cloud firestore here
+        databaseControl.updateProjects();
       }
     });
   };
@@ -459,6 +462,7 @@ const uiControl = (() => {
       } else {
         // TODO
         // implement cloud firestore here
+        databaseControl.updateProjects();
       }
     });
   };

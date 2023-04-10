@@ -38,6 +38,8 @@ if (!localStorage.usingLocal) {
     } else {
       // TODO
       uiControl.showUserInfo(user);
+
+      databaseControl.setDatabase(user.uid, db);
       // Create new user in firestore (if they don't already exist)
       databaseControl.createUser(user.uid, db);
       // Load up the users projects from firestore

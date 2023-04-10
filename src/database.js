@@ -5,6 +5,14 @@ import TodoFactory from './todos';
 import uiControl from './uiControl';
 
 const databaseControl = (() => {
+  let database;
+  let id;
+
+  const setDatabase = (uid, db) => {
+    database = db;
+    id = uid;
+  };
+
   const createUser = async (uid, db) => {
     try {
       const docRef = doc(db, 'users', uid);
@@ -101,9 +109,22 @@ const databaseControl = (() => {
     }
   };
 
+  const updateProjects = async () => {
+    try {
+      const docRef = doc(database, 'users', id);
+      await setDoc(docRef, {
+        projects: JSON.stringify(projectControl.projects),
+      });
+    } catch (error) {
+      console.error('Firestore error: ', error);
+    }
+  };
+
   return {
     createUser,
     loadProjects,
+    setDatabase,
+    updateProjects,
   };
 })();
 
