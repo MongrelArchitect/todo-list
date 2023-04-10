@@ -11,7 +11,6 @@ const loginControl = (() => {
       .then(() => {
         grayout.className = 'grayout hidden';
         loginContainer.className = 'login-container hidden';
-        // do some other stuff
       });
   };
 

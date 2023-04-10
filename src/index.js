@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 import './styles/reset.css';
 import './styles/style.css';
@@ -9,6 +10,7 @@ import ProjectFactory from './projects';
 import TodoFactory from './todos';
 import projectControl from './projectControl';
 import uiControl from './uiControl';
+import databaseControl from './database';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBRBj-efijWMPHre-Q7yQHJNxyWnl5zrTI',
@@ -19,7 +21,8 @@ const firebaseConfig = {
   appId: '1:1066176488365:web:87346f6c6a6e627efef724',
 };
 
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const auth = getAuth();
 
@@ -33,11 +36,16 @@ if (!localStorage.usingLocal) {
     if (!user) {
       uiControl.chooseLoginMethod();
     } else {
+      // TODO
       uiControl.showUserInfo(user);
+      // Create new user in firestore (if they don't already exist)
+      databaseControl.createUser(user.uid, db);
+      // Load up the users projects from firestore
+      databaseControl.loadProjects(user.uid, db);
     }
   });
 } else {
-  // We have at least one project stored, load em all up
+  // We're using local storage, so load up our projects
   const loadedProjects = JSON.parse(localStorage.projects);
   for (let i = 0; i < loadedProjects.length; i += 1) {
     // Load up the projects
@@ -60,7 +68,10 @@ if (!localStorage.usingLocal) {
     displayName: 'Local Storage',
     photoURL: storageIcon,
   });
-  uiControl.drawTodos(projectControl.projects[0].todos, 0);
+  uiControl.drawTodos(
+    projectControl.projects.length > 0 ? projectControl.projects[0].todos : [],
+    0,
+  );
   uiControl.drawProjects();
   uiControl.createNewTodo();
   uiControl.setupDeleteListeners(0);
