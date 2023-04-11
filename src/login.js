@@ -1,13 +1,11 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithRedirect } from 'firebase/auth';
 
 const loginControl = (() => {
   const grayout = document.querySelector('.grayout');
   const loginContainer = document.querySelector('.login-container');
 
-  const useGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    const auth = getAuth();
-    signInWithPopup(auth, provider)
+  const useGoogle = (auth, provider) => {
+    signInWithRedirect(auth, provider)
       .then(() => {
         grayout.className = 'grayout hidden';
         loginContainer.className = 'login-container hidden';

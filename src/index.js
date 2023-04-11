@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 import './styles/reset.css';
@@ -25,6 +25,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const auth = getAuth();
+const provider = new GoogleAuthProvider();
 
 // XXX
 // localStorage.clear();
@@ -34,9 +35,8 @@ const auth = getAuth();
 if (!localStorage.usingLocal) {
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      uiControl.chooseLoginMethod();
+      uiControl.chooseLoginMethod(auth, provider);
     } else {
-      // TODO
       uiControl.showUserInfo(user);
 
       databaseControl.setDatabase(user.uid, db);
@@ -44,6 +44,7 @@ if (!localStorage.usingLocal) {
       databaseControl.createUser(user.uid, db);
       // Load up the users projects from firestore
       databaseControl.loadProjects(user.uid, db);
+      uiControl.handleSignOut(auth);
     }
   });
 } else {
@@ -70,6 +71,7 @@ if (!localStorage.usingLocal) {
     displayName: 'Local Storage',
     photoURL: storageIcon,
   });
+  uiControl.handleSignOut('local');
   uiControl.drawTodos(
     projectControl.projects.length > 0 ? projectControl.projects[0].todos : [],
     0,

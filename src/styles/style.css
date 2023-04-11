@@ -175,6 +175,14 @@ body {
   flex-direction: column;
 }
 
+.sign-out {
+  color: blue;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: normal;
+  text-decoration: underline;
+}
+
 .todo-control {
   align-items: center;
   display: flex;

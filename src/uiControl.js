@@ -474,7 +474,7 @@ const uiControl = (() => {
     userImg.src = user.photoURL;
   };
 
-  const chooseLoginMethod = () => {
+  const chooseLoginMethod = (auth, provider) => {
     const grayout = document.querySelector('.grayout');
     const loginContainer = document.querySelector('.login-container');
     const googleButton = document.querySelector('#google-login');
@@ -483,7 +483,7 @@ const uiControl = (() => {
     loginContainer.className = 'login-container';
 
     googleButton.addEventListener('click', () => {
-      loginControl.useGoogle();
+      loginControl.useGoogle(auth, provider);
     });
 
     const localButton = document.querySelector('#local-login');
@@ -545,12 +545,30 @@ const uiControl = (() => {
     });
   };
 
+  const handleSignOut = (auth) => {
+    const signOut = document.querySelector('.sign-out');
+    signOut.addEventListener('click', () => {
+      projectControl.removeAllProjects();
+      uiControl.showUserInfo({
+        displayName: '',
+        photoURL: '',
+      });
+      uiControl.drawTodos([], 0);
+      if (auth === 'local') {
+        // do something
+      } else {
+        auth.signOut();
+      }
+    });
+  };
+
   return {
     chooseLoginMethod,
     createNewTodo,
     drawProjects,
     drawTodos,
     editTodo,
+    handleSignOut,
     setupCloseListeners,
     setupDeleteListeners,
     setupDetailListeners,
