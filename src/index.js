@@ -34,7 +34,7 @@ const provider = new GoogleAuthProvider();
 if (!localStorage.usingLocal) {
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      uiControl.chooseLoginMethod(auth, provider);
+      uiControl.chooseLoginMethod();
     } else {
       uiControl.showUserInfo(user);
 
@@ -43,7 +43,7 @@ if (!localStorage.usingLocal) {
       databaseControl.createUser(user.uid, db);
       // Load up the users projects from firestore
       databaseControl.loadProjects(user.uid, db);
-      uiControl.handleSignOut(auth, provider);
+      uiControl.handleSignOut(auth);
     }
   });
 } else {

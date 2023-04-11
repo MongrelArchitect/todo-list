@@ -339,8 +339,6 @@ const uiControl = (() => {
             JSON.stringify(projectControl.projects),
           );
         } else {
-          // TODO
-          // implement cloud firestore here
           databaseControl.updateProjects();
         }
       });
@@ -381,8 +379,6 @@ const uiControl = (() => {
             JSON.stringify(projectControl.projects),
           );
         } else {
-          // TODO
-          // implement cloud firestore here
           databaseControl.updateProjects();
         }
       });
@@ -429,8 +425,6 @@ const uiControl = (() => {
           JSON.stringify(projectControl.projects),
         );
       } else {
-        // TODO
-        // implement cloud firestore here
         databaseControl.updateProjects();
       }
     });
@@ -460,8 +454,6 @@ const uiControl = (() => {
           JSON.stringify(projectControl.projects),
         );
       } else {
-        // TODO
-        // implement cloud firestore here
         databaseControl.updateProjects();
       }
     });
@@ -474,115 +466,120 @@ const uiControl = (() => {
     userImg.src = user.photoURL;
   };
 
-  const chooseLoginMethod = (auth, provider) => {
+  const handleLocal = () => {
     const grayout = document.querySelector('.grayout');
     const loginContainer = document.querySelector('.login-container');
-    const googleButton = document.querySelector('#google-login');
+
+    loginControl.useLocalStorage();
+    grayout.className = 'grayout hidden';
+    loginContainer.className = 'login-container hidden';
+    showUserInfo({ displayName: 'Local Storage', photoURL: storageIcon });
+    // Create a default project and add some todos.
+    if (!localStorage.projects) {
+      projectControl.addProject(ProjectFactory('default project'));
+      projectControl.projects[0].addTodo(
+        TodoFactory(
+          'Read Book',
+          'Finish "Human Action" by Ludwig von Mises',
+          '2023-01-30',
+          'Low',
+          false,
+        ),
+      );
+      projectControl.projects[0].addTodo(
+        TodoFactory(
+          'New Battery',
+          'Buy and install a new battery for the Subaru',
+          '2023-02-15',
+          'Medium',
+          false,
+        ),
+      );
+      projectControl.projects[0].addTodo(
+        TodoFactory(
+          "Brother's B-Day",
+          'Call Ryan to wish him a happy birthday',
+          '2023-10-03',
+          'High',
+          false,
+        ),
+      );
+      projectControl.projects[0].addTodo(
+        TodoFactory(
+          'Done',
+          "Whatever it was, it's finished",
+          '2022-12-12',
+          'Medium',
+          true,
+        ),
+      );
+      localStorage.setItem('projects', JSON.stringify(projectControl.projects));
+    } else {
+      // load up projects
+      const loadedProjects = JSON.parse(localStorage.projects);
+      for (let i = 0; i < loadedProjects.length; i += 1) {
+        // Load up the projects
+        projectControl.addProject(ProjectFactory(loadedProjects[i].name));
+        for (let j = 0; j < loadedProjects[i].todos.length; j += 1) {
+          // Load up the todos
+          const loadedTodo = loadedProjects[i].todos[j];
+          projectControl.projects[i].addTodo(
+            TodoFactory(
+              loadedTodo.title,
+              loadedTodo.desc,
+              loadedTodo.due,
+              loadedTodo.prior,
+              loadedTodo.done,
+            ),
+          );
+        }
+      }
+    }
+
+    drawTodos(projectControl.projects[0].todos, 0);
+    drawProjects();
+    createNewTodo();
+    setupDeleteListeners(0);
+    setupDetailListeners();
+    setupCloseListeners();
+    setupEditListeners();
+    setupProjectListeners();
+    submitNewProject();
+    editTodo();
+  };
+
+  const chooseLoginMethod = () => {
+    const grayout = document.querySelector('.grayout');
+    const loginContainer = document.querySelector('.login-container');
 
     grayout.className = 'grayout';
     loginContainer.className = 'login-container';
 
-    googleButton.addEventListener('click', () => {
-      loginControl.useGoogle(auth, provider);
-    });
+    const googleButton = document.querySelector('#google-login');
+    googleButton.addEventListener('click', loginControl.useGoogle);
 
     const localButton = document.querySelector('#local-login');
-    localButton.addEventListener('click', () => {
-      loginControl.useLocalStorage();
-      grayout.className = 'grayout hidden';
-      loginContainer.className = 'login-container hidden';
-      showUserInfo({ displayName: 'Local Storage', photoURL: storageIcon });
-      // Create a default project and add some todos.
-      if (!localStorage.projects) {
-        projectControl.addProject(ProjectFactory('default project'));
-        projectControl.projects[0].addTodo(
-          TodoFactory(
-            'Read Book',
-            'Finish "Human Action" by Ludwig von Mises',
-            '2023-01-30',
-            'Low',
-            false,
-          ),
-        );
-        projectControl.projects[0].addTodo(
-          TodoFactory(
-            'New Battery',
-            'Buy and install a new battery for the Subaru',
-            '2023-02-15',
-            'Medium',
-            false,
-          ),
-        );
-        projectControl.projects[0].addTodo(
-          TodoFactory(
-            "Brother's B-Day",
-            'Call Ryan to wish him a happy birthday',
-            '2023-10-03',
-            'High',
-            false,
-          ),
-        );
-        projectControl.projects[0].addTodo(
-          TodoFactory(
-            'Done',
-            "Whatever it was, it's finished",
-            '2022-12-12',
-            'Medium',
-            true,
-          ),
-        );
-        localStorage.setItem(
-          'projects',
-          JSON.stringify(projectControl.projects),
-        );
-      } else {
-        // load up projects
-        const loadedProjects = JSON.parse(localStorage.projects);
-        for (let i = 0; i < loadedProjects.length; i += 1) {
-          // Load up the projects
-          projectControl.addProject(ProjectFactory(loadedProjects[i].name));
-          for (let j = 0; j < loadedProjects[i].todos.length; j += 1) {
-            // Load up the todos
-            const loadedTodo = loadedProjects[i].todos[j];
-            projectControl.projects[i].addTodo(
-              TodoFactory(
-                loadedTodo.title,
-                loadedTodo.desc,
-                loadedTodo.due,
-                loadedTodo.prior,
-                loadedTodo.done,
-              ),
-            );
-          }
-        }
-      }
-
-      drawTodos(projectControl.projects[0].todos, 0);
-      drawProjects();
-      createNewTodo();
-      setupDeleteListeners(0);
-      setupDetailListeners();
-      setupCloseListeners();
-      setupEditListeners();
-      setupProjectListeners();
-      submitNewProject();
-      editTodo();
-    });
+    localButton.addEventListener('click', handleLocal);
   };
 
-  const handleSignOut = (auth, provider) => {
+  const handleSignOut = (auth) => {
     const signOut = document.querySelector('.sign-out');
     signOut.addEventListener('click', () => {
+      const localButton = document.querySelector('#local-login');
+      localButton.removeEventListener('click', handleLocal);
+      const googleButton = document.querySelector('#google-login');
+      googleButton.removeEventListener('click', loginControl.useGoogle);
       if (localStorage.usingLocal) {
-        if (confirm('Are you sure? All todos will be permanently deleted.')) {
+        // eslint-disable-next-line
+        if (confirm("Are you sure? All todos will be permanently deleted.")) {
           localStorage.clear();
-          chooseLoginMethod(auth, provider);
           projectControl.removeAllProjects();
           uiControl.showUserInfo({
             displayName: '',
             photoURL: '',
           });
           uiControl.drawTodos([], 0);
+          chooseLoginMethod();
         }
       } else {
         auth.signOut();
