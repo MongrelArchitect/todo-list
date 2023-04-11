@@ -29,7 +29,6 @@ const provider = new GoogleAuthProvider();
 
 // XXX
 // localStorage.clear();
-// auth.signOut();
 // XXX
 
 if (!localStorage.usingLocal) {
@@ -44,7 +43,7 @@ if (!localStorage.usingLocal) {
       databaseControl.createUser(user.uid, db);
       // Load up the users projects from firestore
       databaseControl.loadProjects(user.uid, db);
-      uiControl.handleSignOut(auth);
+      uiControl.handleSignOut(auth, provider);
     }
   });
 } else {
@@ -71,7 +70,7 @@ if (!localStorage.usingLocal) {
     displayName: 'Local Storage',
     photoURL: storageIcon,
   });
-  uiControl.handleSignOut('local');
+  uiControl.handleSignOut(auth, provider);
   uiControl.drawTodos(
     projectControl.projects.length > 0 ? projectControl.projects[0].todos : [],
     0,

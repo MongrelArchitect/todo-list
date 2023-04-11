@@ -41,9 +41,9 @@ const databaseControl = (() => {
         );
         projectControl.projects[0].addTodo(
           TodoFactory(
-            "Cousin's B-Day",
-            'Call Liz to wish her a happy birthday',
-            '2023-03-12',
+            "Brother's B-Day",
+            'Call Ryan to wish him a happy birthday',
+            '2023-10-03',
             'High',
             false,
           ),
