@@ -160,6 +160,10 @@ body {
   width: 200px;
 }
 
+.login p {
+  max-width: 200px;
+}
+
 .project-list-item {
   align-items: center;
   display: flex;
