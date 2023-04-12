@@ -68,6 +68,7 @@ const databaseControl = (() => {
 
   const loadProjects = async (uid, db) => {
     try {
+      projectControl.removeAllProjects();
       const docRef = doc(db, 'users', uid);
       const docSnap = await getDoc(docRef);
       const loadedProjects = JSON.parse(docSnap.data().projects);
@@ -88,6 +89,7 @@ const databaseControl = (() => {
           );
         }
       }
+      console.log(projectControl.projects);
     } catch (error) {
       console.error('Firestore error: ', error);
     }
