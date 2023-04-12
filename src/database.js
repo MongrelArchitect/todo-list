@@ -2,7 +2,6 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import projectControl from './projectControl';
 import ProjectFactory from './projects';
 import TodoFactory from './todos';
-import uiControl from './uiControl';
 
 const databaseControl = (() => {
   let database;
@@ -89,21 +88,6 @@ const databaseControl = (() => {
           );
         }
       }
-      uiControl.drawTodos(
-        projectControl.projects.length > 0
-          ? projectControl.projects[0].todos
-          : [],
-        0,
-      );
-      uiControl.drawProjects();
-      uiControl.createNewTodo();
-      uiControl.setupDeleteListeners(0);
-      uiControl.setupDetailListeners();
-      uiControl.setupCloseListeners();
-      uiControl.setupEditListeners();
-      uiControl.setupProjectListeners();
-      uiControl.submitNewProject();
-      uiControl.editTodo();
     } catch (error) {
       console.error('Firestore error: ', error);
     }

@@ -27,23 +27,36 @@ const db = getFirestore(app);
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
-// XXX
-// localStorage.clear();
-// XXX
+const setupGoogle = async (user) => {
+  uiControl.showUserInfo(user);
+
+  await databaseControl.setDatabase(user.uid, db);
+  // Create new user in firestore (if they don't already exist)
+  await databaseControl.createUser(user.uid, db);
+  // Load up the users projects from firestore
+  await databaseControl.loadProjects(user.uid, db);
+  uiControl.handleSignOut(auth);
+  uiControl.drawTodos(
+    projectControl.projects.length > 0 ? projectControl.projects[0].todos : [],
+    0,
+  );
+  uiControl.drawProjects();
+  uiControl.createNewTodo();
+  uiControl.setupDeleteListeners(0);
+  uiControl.setupDetailListeners();
+  uiControl.setupCloseListeners();
+  uiControl.setupEditListeners();
+  uiControl.setupProjectListeners();
+  uiControl.submitNewProject();
+  uiControl.editTodo();
+};
 
 if (!localStorage.usingLocal) {
   onAuthStateChanged(auth, (user) => {
     if (!user) {
       uiControl.chooseLoginMethod();
     } else {
-      uiControl.showUserInfo(user);
-
-      databaseControl.setDatabase(user.uid, db);
-      // Create new user in firestore (if they don't already exist)
-      databaseControl.createUser(user.uid, db);
-      // Load up the users projects from firestore
-      databaseControl.loadProjects(user.uid, db);
-      uiControl.handleSignOut(auth);
+      setupGoogle(user);
     }
   });
 } else {
